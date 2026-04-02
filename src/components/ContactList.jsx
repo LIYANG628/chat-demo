@@ -1,43 +1,66 @@
-import reactLogo from '../assets/react.svg';
+import { css, cx } from "@linaria/core";
 
-const ContactList = () => {
-  const contacts = [
-    {
-      id: 1,
-      name: '小帅',
-    },
-    {
-      id: 2,
-      name: '小白',
-    },
-    {
-      id: 3,
-      name: '小美',
-      active: true,
-    },
-    {
-      id: 4,
-      name: '大壮',
-    },
-    {
-      id: 5,
-      name: '老宋',
-    },
-    {
-      id: 6,
-      name: '贾姐',
-    },
-  ];
+const contactListItemStyles = css`
+  height: 80px;
 
+  & > a {
+    padding: 0 1.2rem;
+    display: flex;
+    align-items: center;
+    column-gap: 1.2rem;
+    height: 100%;
+    &:hover,
+    &:active {
+      background-color: #ffffff77;
+    }
+
+    & > img {
+      border-radius: 50%;
+      flex: 0 0 2rem;
+      height: 2rem;
+      background-color: #eeeeee;
+    }
+
+    & > .contact-name {
+      flex: 1;
+      font-size: 1.2rem;
+      color: #000000;
+    }
+  }
+`;
+const activeStyles = css`
+  background-color: #ffffff99;
+`;
+
+const ContactListItem = ({ contactName, contactAvatar, active, onClick }) => (
+  <li className={cx(contactListItemStyles, active && activeStyles)}>
+    <a href="#" onClick={onClick}>
+      <img src={contactAvatar} alt="头像" />
+      <div className="contact-name">{contactName}</div>
+    </a>
+  </li>
+);
+
+const contactListStyles = css`
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  list-style: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+`;
+
+const ContactList = ({ contacts, selectedContactId, onClickContactItem }) => {
   return (
-    <ul className="contact-list">
+    <ul className={contactListStyles}>
       {contacts.map((contact) => (
-        <li key={contact.id} className={contact.active && 'active'}>
-          <a href="#">
-            <img src={reactLogo} className="avatar" alt="头像" />
-            <div className="contact-name">{contact.name}</div>
-          </a>
-        </li>
+        <ContactListItem
+          key={contact.id}
+          contactName={contact.name}
+          contactAvatar={contact.avatar}
+          active={contact.id === selectedContactId}
+          onClick={() => onClickContactItem(contact.id)}
+        />
       ))}
     </ul>
   );

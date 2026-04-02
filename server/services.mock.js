@@ -3,6 +3,7 @@ export default [
         pattern: '/api/threads/{threadId}/messages',
         handle: (req, res) => {
             const { threadId } = req.params;
+            console.log('threadId', threadId);
             const data = threadId % 2 === 0 ? {
                 contactName: '小白',
                 messages: [
